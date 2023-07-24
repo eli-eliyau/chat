@@ -8,34 +8,39 @@ import {
 } from "../atom/atom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { socket } from "../App";
-import { apiPost } from "../apiServer/apiToServer";
-
+interface Message{
+  text: string ,
+  user: string | null,  
+  userTo:string | null
+  timestamp:  string,
+}
 const InputMessage = () => {
   const numRoom = useRecoilValue(atomNumRoom);
   const clickedUser = useRecoilValue(atomDataClickedUser);
   const [yMessage, setYmessage] = useRecoilState(atomDataYourMessage);
-  // const [messageReceive, setMessageReceive] = React.useState<string>();
-  // const [fMessage, setFmessage] = useRecoilState(atomDataMessageFromAnother);
-  const [fMessage, setFmessage] = React.useState<string | undefined>();
+  const [fMessage, setFmessage] = useRecoilState(atomDataMessageFromAnother);
 
-  const sendMessageAndRoom = (message: any) => {
-    socket.emit("send_messageAndRoom", { message, numRoom });
+  const sendMessageAndRoom = (data: Message) => {
+    socket.emit("send_messageAndRoom", { data, numRoom });
+    
   };
 
-  React.useEffect(() => {
-    socket.on("receive_room", (data) => {
-      // setMessageReceive(data.message);
-      // setFmessage([...fMessage, { messageFromAnother: data.message }]);
-      setFmessage(data.message);
-    });
-  }, [socket]);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log(data);
-    sendMessageAndRoom(data.get("message"));
     let n = String(data.get("message"));
+
+    const newMessage = {
+      text:  String(data.get("message")),
+      user: localStorage.getItem('idMyUser'),
+      userTo:clickedUser._id,
+      timestamp: new Date().toISOString(),
+    };
+
+    sendMessageAndRoom(newMessage);
+    setYmessage((prevMessages) =>[...prevMessages, newMessage])
+    console.log(yMessage);
 
     // apiPost(
     //   {

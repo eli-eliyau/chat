@@ -2,13 +2,13 @@ import React from "react";
 import Typography from "@mui/material/Typography";
 
 interface Props {
-  message: string | undefined;
+  message: FormDataEntryValue | null;
 }
 
 const MessageFromAnother = ({ message }: Props) => {
   return (
     <div>
-      <Typography sx={{ pt: 5 }}>{message}</Typography>
+      <Typography align="right" sx={{ pt: 5 }}>{message?.toString()}</Typography>
     </div>
   );
 };

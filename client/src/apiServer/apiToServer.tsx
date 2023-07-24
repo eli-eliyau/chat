@@ -4,7 +4,6 @@ export const API_SERVER = "http://localhost:3001/api";
 
 const apiPost = async (data: object | [{}], toUrlServer: string) => {
   try {
-    console.log(data);
 
     const res = await axios({
       method: "post",
