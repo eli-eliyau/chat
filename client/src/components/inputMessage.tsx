@@ -40,7 +40,6 @@ const InputMessage = () => {
 
     sendMessageAndRoom(newMessage);
     setYmessage((prevMessages) =>[...prevMessages, newMessage])
-    console.log(yMessage);
 
     // apiPost(
     //   {

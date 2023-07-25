@@ -12,15 +12,16 @@ const HomeMessages = () => {
   const clickedUser = useRecoilValue(atomDataClickedUser);
   const [messageReceive, setMessageReceive] = useState<string>();
   const [fMessage, setFmessage] = useRecoilState(atomDataMessageFromAnother);
-  // const [fMessage, setFmessage] = useState<MyObject[] >([]);
+  const [Message, setmessage] = useState("");
   const [yMessage, setYmessage] = useRecoilState(atomDataYourMessage);
 
 
   useEffect(() => {
-  socket.on("receive_room", (data) => {
+  socket.on("receive_room", (data:any) => {
     console.log("לפני",data.data)
 
     setFmessage((prevMessages) =>[...prevMessages, data.data])
+    setmessage(data.data.text)
   });
    
   }, [socket]);
@@ -36,15 +37,16 @@ const HomeMessages = () => {
         sx={{ width: "100%" }}
       >
      
-        {yMessage.map((key:Message,index) => (
+        {/* {yMessage.map((key:Message,index) => ( */}
           <>
             <Grid item>
-         {  key.user === localStorage.getItem('idMyUser') ?  <YourMessage message={key.text} />:
-              <MessageFromAnother message={fMessage[index].text} />
-        }
+         {/* {  key.user === localStorage.getItem('idMyUser')?  <YourMessage message={key.text} />:
+           <MessageFromAnother message={fMessage[index].text} />
+        } */}
+        {Message}
             </Grid>
           </>
-        ))}
+        {/* ))} */}
        
       </Grid>
     </>
