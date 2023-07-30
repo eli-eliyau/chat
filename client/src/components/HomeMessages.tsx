@@ -1,12 +1,18 @@
 import MessageFromAnother from "./MessageFromAnother";
 import YourMessage from "./YourMessage";
 import { Grid } from "@mui/material";
-import { socket } from "../App";
-import { useEffect, useState } from "react";
+// import { socket } from "../App";
+import { useEffect, useRef, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { Message, atomDataClickedUser, atomDataMessageFromAnother, atomDataYourMessage } from "../atom/atom";
+import {
+  Message,
+  atomDataClickedUser,
+  atomDataMessageFromAnother,
+  atomDataYourMessage,
+} from "../atom/atom";
+import { io, Socket } from "socket.io-client";
 
-
+export let socket: Socket;
 
 const HomeMessages = () => {
   const clickedUser = useRecoilValue(atomDataClickedUser);
@@ -14,19 +20,31 @@ const HomeMessages = () => {
   const [fMessage, setFmessage] = useRecoilState(atomDataMessageFromAnother);
   const [Message, setmessage] = useState("");
   const [yMessage, setYmessage] = useRecoilState(atomDataYourMessage);
-
-
+  const socketClient = useRef<Socket>();
   useEffect(() => {
-  socket.on("receive_room", (data:any) => {
-    console.log("לפני",data.data)
+    // Establish the Socket.IO connection when the component mounts
+    socketClient.current = socket = io("http://localhost:3001");
+    if (socket) {
+      socketClient.current.on("event-name", (data: any) => {
+        // Handle the data received from the server
+        console.log("Received data from server:", data);
+      });
+      socketClient.current.on("receive_room", (data: any) => {
+        console.log("לפני", data.data);
 
-    setFmessage((prevMessages) =>[...prevMessages, data.data])
-    setmessage(data.data.text)
-  });
-   
-  }, [socket]);
- 
-  
+        setFmessage((prev) => [...prev, data.data]);
+        setmessage(data.data.text);
+      });
+    }
+    // Handling events from the server
+
+    // Clean up the socket connection when the component unmounts
+    return () => {
+      socketClient.current?.disconnect();
+      socketClient.current = undefined;
+    };
+  }, [socketClient, setFmessage]);
+
   return (
     <>
       <Grid
@@ -36,18 +54,13 @@ const HomeMessages = () => {
         alignItems="stretch"
         sx={{ width: "100%" }}
       >
-     
-        {/* {yMessage.map((key:Message,index) => ( */}
+        {yMessage.map((key: Message, index) => (
           <>
             <Grid item>
-         {/* {  key.user === localStorage.getItem('idMyUser')?  <YourMessage message={key.text} />:
-           <MessageFromAnother message={fMessage[index].text} />
-        } */}
-        {Message}
+              <YourMessage message={key.text} user={key.user} />
             </Grid>
           </>
-        {/* ))} */}
-       
+        ))}
       </Grid>
     </>
   );

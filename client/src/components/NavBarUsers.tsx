@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import { apiAllUsers, apiPost } from "../apiServer/apiToServer";
 import { useRecoilState } from "recoil";
 import { atomDataClickedUser, atomNumRoom } from "../atom/atom";
-import { socket } from "../App";
+import { socket } from "./HomeMessages";
+// import { socket } from "../App";
 
 interface Data {
   _id: string;

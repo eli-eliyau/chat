@@ -1,11 +1,12 @@
-import * as io from "socket.io-client";
+// import * as io from "socket.io-client";
 import { Routes, Route, Navigate } from "react-router-dom";
 import LogIn from "./components/LogIn";
 import Home from "./components/Home";
 
-export const socket = io.connect("http://localhost:3001");
-
+// export const socket = io.connect("http://localhost:3001");
 function App() {
+ 
+  
   // const sendMessage = () => {
   // socket.emit("send_message", { message });
   // };

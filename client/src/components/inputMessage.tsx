@@ -7,7 +7,9 @@ import {
   atomNumRoom,
 } from "../atom/atom";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { socket } from "../App";
+import { socket } from "./HomeMessages";
+// import { socket } from "../App";
+
 interface Message{
   text: string ,
   user: string | null,  
@@ -15,6 +17,10 @@ interface Message{
   timestamp:  string,
 }
 const InputMessage = () => {
+
+ 
+
+
   const numRoom = useRecoilValue(atomNumRoom);
   const clickedUser = useRecoilValue(atomDataClickedUser);
   const [yMessage, setYmessage] = useRecoilState(atomDataYourMessage);
