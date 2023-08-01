@@ -8,8 +8,6 @@ import { TypeMessage } from "../atom/atom";
 
 const Message = (props:{data:TypeMessage ,left?:string,right?:string}) => {
 
-  const s = {}
-  if(left =)
 
   const getDateNow = (date:string) => (
     <Moment format="h:mm:ss DD/MM/YYYY">{date}</Moment>
@@ -31,7 +29,7 @@ const Message = (props:{data:TypeMessage ,left?:string,right?:string}) => {
           }}
         >
           <Typography sx={{textAlign:`${props.left ?props.left :props.right }`}}>{props.data.text}</Typography>
-          {getDateNow(props.data.timestamp)}
+          {/* {getDateNow(props.data.timestamp)} */}
         </Box>
    
     </Box>

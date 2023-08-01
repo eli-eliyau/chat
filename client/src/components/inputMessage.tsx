@@ -1,42 +1,30 @@
 import { Box, Button, TextField } from "@mui/material";
 import React from "react";
 import {
+  TypeMessage,
   atomDataClickedUser,
-  atomDataMessageFromAnother,
-  atomDataYourMessage,
+  atomDataListMessages,
   atomNumRoom,
 } from "../atom/atom";
-import { useRecoilState, useRecoilValue } from "recoil";
+import {  useRecoilValue, useSetRecoilState } from "recoil";
 import { socket } from "./HomeMessages";
-// import { socket } from "../App";
 
-interface Message{
-  text: string ,
-  user: string | null,  
-  userTo:string | null
-  timestamp:  string,
-}
+
 const InputMessage = () => {
-
- 
-
-
   const numRoom = useRecoilValue(atomNumRoom);
   const clickedUser = useRecoilValue(atomDataClickedUser);
-  const [yMessage, setYmessage] = useRecoilState(atomDataYourMessage);
-  const [fMessage, setFmessage] = useRecoilState(atomDataMessageFromAnother);
+  const  setListMessages = useSetRecoilState(atomDataListMessages);
 
-  const sendMessageAndRoom = (data: Message) => {
+  const sendMessageAndRoom = (data: TypeMessage) => {
     socket.emit("send_messageAndRoom", { data, numRoom });
-    
   };
-
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    let n = String(data.get("message"));
-
+    let message = String(data.get("message"));
+   
+    if(message){
     const newMessage = {
       text:  String(data.get("message")),
       user: localStorage.getItem('idMyUser'),
@@ -45,7 +33,7 @@ const InputMessage = () => {
     };
 
     sendMessageAndRoom(newMessage);
-    setYmessage((prevMessages) =>[...prevMessages, newMessage])
+    setListMessages((prev) =>[...prev, newMessage])
 
     // apiPost(
     //   {
@@ -59,6 +47,7 @@ const InputMessage = () => {
     // ...yMessage,
     // { yourMessage: n, messageFromAnother: fMessage },
     // ]);
+  }
   };
 
   return (

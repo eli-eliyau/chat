@@ -1,11 +1,10 @@
 import { List, ListItem, ListItemText } from "@mui/material";
 import PersonPinIcon from "@mui/icons-material/PersonPin";
 import { useEffect, useState } from "react";
-import { apiAllUsers, apiPost } from "../apiServer/apiToServer";
-import { useRecoilState } from "recoil";
+import { apiPost } from "../apiServer/apiToServer";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { atomDataClickedUser, atomNumRoom } from "../atom/atom";
 import { socket } from "./HomeMessages";
-// import { socket } from "../App";
 
 interface Data {
   _id: string;
@@ -13,14 +12,11 @@ interface Data {
   _email: string;
   _dade_created: string;
 }
-interface IProps {
-  onInOpen: (element: boolean) => void;
-}
 
-const NavBarUsers = ({ onInOpen }: IProps) => {
+const NavBarUsers = (props: { onInOpen: Function ,op:boolean}) => {
   const [dataUsers, setDataUsers] = useState<Data[]>();
-  const [atomNumRoo, setAtomNumRoo] = useRecoilState(atomNumRoom);
-  const [clickedUser, setClickedUser] = useRecoilState(atomDataClickedUser);
+  const setAtomNumRoo = useSetRecoilState(atomNumRoom);
+  const setClickedUser = useSetRecoilState(atomDataClickedUser);
 
   useEffect(() => {
     apiPost({ _id: localStorage.getItem("idMyUser") }, "getAllUsers")
@@ -30,6 +26,10 @@ const NavBarUsers = ({ onInOpen }: IProps) => {
       .catch((err) => console.log(err));
   }, []);
 
+  const joinRoom = async (room: number) => {
+    socket.emit("join_room", room);
+  };
+
   const sendApi = async (element: Data) => {
     const room = await apiPost(
       [{ _id: element._id }, { _id: localStorage.getItem("idMyUser") }],
@@ -37,10 +37,6 @@ const NavBarUsers = ({ onInOpen }: IProps) => {
     );
     setAtomNumRoo(room);
     room && joinRoom(room);
-  };
-
-  const joinRoom = async (room: number) => {
-    socket.emit("join_room", room);
   };
 
   return (
@@ -54,7 +50,8 @@ const NavBarUsers = ({ onInOpen }: IProps) => {
                 onClick={async () => {
                   setClickedUser(element);
                   sendApi(element);
-                  onInOpen(true);
+                 props.op !== true ?  props.onInOpen(true):props.onInOpen(false)
+
                 }}
                 key={index}
               >

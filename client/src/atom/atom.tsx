@@ -6,7 +6,7 @@ interface Data {
   _email: string;
   _dade_created: string;
 }
-export interface Message{
+export interface TypeMessage{
   text: string ,
   user: string| null, 
   userTo:string | null
@@ -29,12 +29,8 @@ export const atomNumRoom = atom({
   default: 0,
 });
 
-export const atomDataMessageFromAnother = atom<Message[]>({
-  key: "DataMessage",
+export const atomDataListMessages = atom<TypeMessage[]>({
+  key: "DataMessages",
   default: [],
 });
 
-export const atomDataYourMessage = atom<Message[]>({
-  key: "DataMessage",
-  default: [],
-});

@@ -3,7 +3,7 @@ import InputMessage from "./inputMessage";
 import { Grid } from "@mui/material";
 import HomeMessages from "./HomeMessages";
 
-const Messages = () => {
+const PageMessages = () => {
   return (
     <Grid
       container
@@ -35,4 +35,4 @@ const Messages = () => {
   );
 };
 
-export default Messages;
+export default PageMessages;

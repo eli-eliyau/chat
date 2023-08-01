@@ -1,11 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import { Grid } from "@mui/material";
 import NavBarUsers from "./NavBarUsers";
-import Messages from "./Messages";
+import PageMessages from "./PageMessages";
+import { useSetRecoilState } from "recoil";
+import { atomDataListMessages } from "../atom/atom";
 
 const Home = () => {
-  const [isOpen, setIsOpen] = useState<boolean>();
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const  setListMessages = useSetRecoilState(atomDataListMessages);
+
+useEffect(()=>{
+  setListMessages([])
+},[isOpen,setListMessages])
 
   return (
     <>
@@ -17,10 +24,10 @@ const Home = () => {
           alignItems="flex-start"
         >
           <Grid item xs={4}>
-            <NavBarUsers onInOpen={setIsOpen} />
+            <NavBarUsers onInOpen={setIsOpen} op={isOpen} />
           </Grid>
           <Grid item xs={8} height={"1200px"}>
-            {isOpen && <Messages />}
+            {isOpen && <PageMessages />}
           </Grid>
         </Grid>
       </Box>
