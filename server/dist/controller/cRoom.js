@@ -27,7 +27,6 @@ const updateNumRoom = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         const room = yield sUser_1.default.findOne({
             _id: req.body[1]._id,
         }).select("_room");
-        console.log(55);
         room ? res.json(room._room) : res.send(false);
     }
     catch (error) {

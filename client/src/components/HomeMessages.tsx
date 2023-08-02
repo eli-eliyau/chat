@@ -5,16 +5,16 @@ import { TypeMessage, atomDataListMessages } from "../atom/atom";
 import { io, Socket } from "socket.io-client";
 import Message from "./Message";
 
-export let socket: Socket;
+export let sockets: Socket;
 
 const HomeMessages = () => {
   const [listMessages, setListMessages] = useRecoilState(atomDataListMessages);
   const socketClient = useRef<Socket>();
 
   useEffect(() => {
-    socketClient.current = socket = io("http://localhost:3001");
+    socketClient.current = sockets = io("http://localhost:3001");
 
-    if (socket) {
+    if (sockets) {
       socketClient.current.on("event-name", (data: any) => {
         console.log("Received data from server:", data);
       });
@@ -40,15 +40,15 @@ const HomeMessages = () => {
       >
         {listMessages.map((key: TypeMessage, index) => (
           <>
-          {key.user === localStorage.getItem("idMyUser") ?
-          <Grid item>
-          <Message data={key} key={index} />
-          </Grid>
-          :  <Grid item sx={{direction:"rtl"}}>
-          <Message data={key} key={index} />
-          </Grid>
-
-        }
+            {key.user === localStorage.getItem("idMyUser") ? (
+              <Grid item>
+                <Message data={key} key={index} left="left" />
+              </Grid>
+            ) : (
+              <Grid item sx={{ direction: "rtl" }}>
+                <Message data={key} key={index} right="right" />
+              </Grid>
+            )}
           </>
         ))}
       </Grid>

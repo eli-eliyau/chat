@@ -12,6 +12,7 @@ const Home = () => {
 
 useEffect(()=>{
   setListMessages([])
+
 },[isOpen,setListMessages])
 
   return (
@@ -24,7 +25,7 @@ useEffect(()=>{
           alignItems="flex-start"
         >
           <Grid item xs={4}>
-            <NavBarUsers onInOpen={setIsOpen} op={isOpen} />
+            <NavBarUsers onInOpen={setIsOpen} open={isOpen} />
           </Grid>
           <Grid item xs={8} height={"1200px"}>
             {isOpen && <PageMessages />}

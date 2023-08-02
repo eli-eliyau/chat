@@ -2,11 +2,11 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import LogIn from "./components/LogIn";
 import Home from "./components/Home";
-
+import { useEffect, useState } from "react";
+import io, {Socket} from 'socket.io-client';
 // export const socket = io.connect("http://localhost:3001");
 function App() {
  
-  
   // const sendMessage = () => {
   // socket.emit("send_message", { message });
   // };

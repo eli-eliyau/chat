@@ -10,7 +10,7 @@ export interface TypeMessage{
   text: string ,
   user: string| null, 
   userTo:string | null
-  timestamp:  string,
+  date:  string,
 }
 
 

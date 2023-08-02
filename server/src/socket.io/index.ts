@@ -4,7 +4,7 @@ import { DefaultEventsMap } from "socket.io/dist/typed-events";
 const onlineUsers = new Map();
 
 const ids = new Map();
-
+const connectedUsers = new Map();
 const message = new Map();
 
 const socketIo = (
@@ -13,6 +13,13 @@ const socketIo = (
   io.on("connection", (socket) => {
     console.log("eli", `${socket.id}`);
 
+    socket.on('userConnected', (userId) => {
+      connectedUsers.set(userId, socket.id);
+      console.log(connectedUsers);
+      
+      io.emit('userStatusUpdate', userId, true); // Notify all users about the status change
+   
+    });
     const userId = socket.id;
 
     ids.set("id", userId);
@@ -24,7 +31,7 @@ const socketIo = (
     });
 
     socket.on("join_room", (data) => {
-      console.log("sss", data);
+      console.log("join room num", data);
 
       socket.join(data);
     });
@@ -33,11 +40,23 @@ const socketIo = (
       socket.to(data.numRoom).emit("receive_room", data);
     });
 
-    socket.on("disconnect", () => {
-      console.log(userId);
+    // socket.on("disconnect", () => {
+    //   // console.log(userId);
 
-      // Remove the user's connection information
-      onlineUsers.delete(userId);
+    //   // Remove the user's connection information
+    //   onlineUsers.delete(userId);
+    // });
+
+    socket.on('disconnect', () => {
+      for (const [userId, id] of connectedUsers.entries()) {
+        if (id === socket.id) {
+          connectedUsers.delete(userId);
+          console.log(connectedUsers);
+          
+          io.emit('userStatusUpdate', userId, false); // Notify all users about the status change
+          break;
+        }
+      }
     });
   });
 };

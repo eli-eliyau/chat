@@ -7,7 +7,7 @@ import {
   atomNumRoom,
 } from "../atom/atom";
 import {  useRecoilValue, useSetRecoilState } from "recoil";
-import { socket } from "./HomeMessages";
+import { sockets} from "./HomeMessages";
 
 
 const InputMessage = () => {
@@ -16,7 +16,7 @@ const InputMessage = () => {
   const  setListMessages = useSetRecoilState(atomDataListMessages);
 
   const sendMessageAndRoom = (data: TypeMessage) => {
-    socket.emit("send_messageAndRoom", { data, numRoom });
+    sockets.emit("send_messageAndRoom", { data, numRoom });
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -29,7 +29,7 @@ const InputMessage = () => {
       text:  String(data.get("message")),
       user: localStorage.getItem('idMyUser'),
       userTo:clickedUser._id,
-      timestamp: new Date().toISOString(),
+      date: new Date().toISOString(),
     };
 
     sendMessageAndRoom(newMessage);
