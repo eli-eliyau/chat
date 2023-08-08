@@ -29,7 +29,7 @@ const PageMessages = () => {
         <HomeMessages />
       </Grid>
       <Grid width={"100%"}>
-        <InputMessage />
+        <InputMessage label={"Message"} type={'submit'} sx={{ mt: 2, mb: 1 }}/>
       </Grid>
     </Grid>
   );

@@ -9,6 +9,7 @@ export interface IUser {
   _password: string;
   _token: String;
   _room: Number;
+  _connected:boolean
   _id_socket_io: String;
   _dade_created: {
     type: Date;
@@ -22,6 +23,7 @@ const userSchema: Schema = new Schema<IUser>({
   _password: { type: String, required: true },
   _token: { type: String },
   _room: { type: Number },
+  _connected:{type:Boolean ,default:false},
   _id_socket_io: { type: String },
   _dade_created: {
     type: Date,

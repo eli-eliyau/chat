@@ -1,5 +1,6 @@
 import { Server } from "socket.io";
 import { DefaultEventsMap } from "socket.io/dist/typed-events";
+import UsersSchema from "../schemas/sUser";
 
 const onlineUsers = new Map();
 
@@ -13,13 +14,21 @@ const socketIo = (
   io.on("connection", (socket) => {
     console.log("eli", `${socket.id}`);
 
-    socket.on('userConnected', (userId) => {
+    socket.on('userConnected', async (userId) => {
       connectedUsers.set(userId, socket.id);
       console.log(connectedUsers);
-      
-      io.emit('userStatusUpdate', userId, true); // Notify all users about the status change
-   
+
+      socket.emit('userStatusUpdate', userId, true); // Notify all users about the status change
+      const updatedUser = await UsersSchema.findByIdAndUpdate(userId, { $set: { _connected: true } },)
+
+      if (!updatedUser) {
+        console.log('User not found.');
+        return;
+      }
+
+      console.log('Updated User:', updatedUser);
     });
+
     const userId = socket.id;
 
     ids.set("id", userId);
@@ -29,6 +38,10 @@ const socketIo = (
       message.set(userId, data);
       socket.broadcast.emit("receive_message", data);
     });
+
+    socket.on("file", (data) => {
+      io.emit('file_download', data)
+    })
 
     socket.on("join_room", (data) => {
       console.log("join room num", data);
@@ -47,12 +60,21 @@ const socketIo = (
     //   onlineUsers.delete(userId);
     // });
 
-    socket.on('disconnect', () => {
+    socket.on('disconnect', async () => {
       for (const [userId, id] of connectedUsers.entries()) {
         if (id === socket.id) {
           connectedUsers.delete(userId);
+          const updatedUser = await UsersSchema.findByIdAndUpdate(userId, { $set: { _connected: false } },)
+
+          if (!updatedUser) {
+            console.log('User not found.');
+            return;
+          }
+
+          // console.log('Updated User:', updatedUser);
+
           console.log(connectedUsers);
-          
+
           io.emit('userStatusUpdate', userId, false); // Notify all users about the status change
           break;
         }

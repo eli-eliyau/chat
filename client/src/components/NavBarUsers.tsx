@@ -10,6 +10,7 @@ interface Data {
   _id: string;
   _fullName: string;
   _email: string;
+  _connected:boolean
   _dade_created: string;
 }
 
@@ -32,10 +33,8 @@ const NavBarUsers = (props: { onInOpen: Function; open: boolean }) => {
     const newSocket = io("http://localhost:3001");
     setSocket(newSocket);
 
-    // Emit a 'userConnected' event when the user logs in
     newSocket.emit("userConnected", userId);
 
-    // Listen for 'userStatusUpdate' events
     newSocket.on(
       "userStatusUpdate",
       (updatedUserId: string, isOnline: boolean) => {
@@ -43,10 +42,10 @@ const NavBarUsers = (props: { onInOpen: Function; open: boolean }) => {
           ...prevStatus,
           [updatedUserId]: isOnline,
         }));
+      
       }
     );
-
-    // Clean up the socket connection on unmount
+   
     return () => {
       newSocket.disconnect();
     };
@@ -55,6 +54,8 @@ const NavBarUsers = (props: { onInOpen: Function; open: boolean }) => {
   useEffect(() => {
     apiPost({ _id: localStorage.getItem("idMyUser") }, "getAllUsers")
       .then((data) => {
+        console.log(data);
+        
         setDataUsers(data);
       })
       .catch((err) => console.log(err));
@@ -91,7 +92,7 @@ const NavBarUsers = (props: { onInOpen: Function; open: boolean }) => {
                     : props.onInOpen(false);
                 }}
               >
-                {usersStatus[element._id] && (
+                {( usersStatus[element._id] !== false )  && (
                   <PersonPinIcon
                     sx={{ position: "static", bottom: 0, left: 0, right: 0 }}
                     elevation={3}

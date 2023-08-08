@@ -36,6 +36,7 @@ const userSchema = new mongoose_1.Schema({
     _password: { type: String, required: true },
     _token: { type: String },
     _room: { type: Number },
+    _connected: { type: Boolean, default: false },
     _id_socket_io: { type: String },
     _dade_created: {
         type: Date,
