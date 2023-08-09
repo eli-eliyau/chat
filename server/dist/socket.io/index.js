@@ -13,6 +13,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const sUser_1 = __importDefault(require("../schemas/sUser"));
+const fs_1 = __importDefault(require("fs"));
+const path_1 = __importDefault(require("path"));
 const onlineUsers = new Map();
 const ids = new Map();
 const connectedUsers = new Map();
@@ -38,8 +40,17 @@ const socketIo = (io) => {
             message.set(userId, data);
             socket.broadcast.emit("receive_message", data);
         });
-        socket.on("file", (data) => {
-            io.emit('file_download', data);
+        socket.on('file', (data) => {
+            const fileName = data.fileName;
+            const fileData = data.fileData;
+            const filePath = path_1.default.join(__dirname, 'uploadedFiles', fileName); // Change to your desired directory
+            fs_1.default.writeFileSync(filePath, Buffer.from(fileData));
+            console.log('File received and saved:', fileName);
+            // Broadcast the file to all connected clients except the sender
+            socket.broadcast.emit('file', {
+                fileName,
+                fileData: fs_1.default.readFileSync(filePath).toString('base64'),
+            });
         });
         socket.on("join_room", (data) => {
             console.log("join room num", data);

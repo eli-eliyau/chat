@@ -1,7 +1,8 @@
 import { Server } from "socket.io";
 import { DefaultEventsMap } from "socket.io/dist/typed-events";
 import UsersSchema from "../schemas/sUser";
-
+import fs from 'fs'
+import path from 'path'
 const onlineUsers = new Map();
 
 const ids = new Map();
@@ -39,9 +40,22 @@ const socketIo = (
       socket.broadcast.emit("receive_message", data);
     });
 
-    socket.on("file", (data) => {
-      io.emit('file_download', data)
-    })
+    socket.on('file', (data) => {
+      const fileName = data.fileName;
+      const fileData = data.fileData;
+  
+      const filePath = path.join(__dirname, 'uploadedFiles', fileName); // Change to your desired directory
+  
+      fs.writeFileSync(filePath, Buffer.from(fileData));
+      console.log('File received and saved:', fileName);
+  
+      // Broadcast the file to all connected clients except the sender
+      socket.broadcast.emit('file', {
+        fileName,
+        fileData: fs.readFileSync(filePath).toString('base64'),
+      });
+    });
+  
 
     socket.on("join_room", (data) => {
       console.log("join room num", data);
