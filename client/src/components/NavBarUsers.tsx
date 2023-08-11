@@ -15,19 +15,18 @@ interface Data {
 }
 
 const NavBarUsers = (props: { onInOpen: Function; open: boolean }) => {
-  const [dataUsers, setDataUsers] = useState<Data[]>();
-  const setAtomNumRoo = useSetRecoilState(atomNumRoom);
-  const setClickedUser = useSetRecoilState(atomDataClickedUser);
-
   const [socket, setSocket] = useState<Socket | null>(null);
   const [userId, setUserId] = useState<string | null>(
     localStorage.getItem("idMyUser")
-  ); // Replace with the actual user ID
-  // const [usersStatus, setUsersStatus] = useState<{ [userId: string]: boolean }>({});
+  );
   const [usersStatus, setUsersStatus] = useState<{ [userId: string]: boolean }>(
     {}
   );
-
+  const [dataUsers, setDataUsers] = useState<Data[]>();
+  
+  const setAtomNumRoo = useSetRecoilState(atomNumRoom);
+  const setClickedUser = useSetRecoilState(atomDataClickedUser);
+  
   useEffect(() => {
     // Connect to the Socket.IO server
     const newSocket = io("http://localhost:3001");
@@ -61,17 +60,13 @@ const NavBarUsers = (props: { onInOpen: Function; open: boolean }) => {
       .catch((err) => console.log(err));
   }, []);
 
-  const joinRoom = async (room: number) => {
-    sockets.emit("join_room", room);
-  };
-
   const sendApi = async (element: Data) => {
     const room = await apiPost(
       [{ _id: element._id }, { _id: localStorage.getItem("idMyUser") }],
       "numRoom"
     );
     setAtomNumRoo(room);
-    room && joinRoom(room);
+    room && sockets.emit("join_room", room);
   };
 
   return (

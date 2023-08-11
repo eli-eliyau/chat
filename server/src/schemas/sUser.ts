@@ -15,6 +15,7 @@ export interface IUser {
     type: Date;
   };
 }
+let numRoom = Math.floor(Math.random() * (100 - 1 + 1)) + 1;
 
 // 2. Create a Schema corresponding to the document interface.
 const userSchema: Schema = new Schema<IUser>({
@@ -22,7 +23,7 @@ const userSchema: Schema = new Schema<IUser>({
   _email: { type: String, required: true },
   _password: { type: String, required: true },
   _token: { type: String },
-  _room: { type: Number },
+  _room: { type: Number ,default:numRoom},
   _connected:{type:Boolean ,default:false},
   _id_socket_io: { type: String },
   _dade_created: {

@@ -29,13 +29,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.genToken = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+let numRoom = Math.floor(Math.random() * (100 - 1 + 1)) + 1;
 // 2. Create a Schema corresponding to the document interface.
 const userSchema = new mongoose_1.Schema({
     _fullName: { type: String, required: true },
     _email: { type: String, required: true },
     _password: { type: String, required: true },
     _token: { type: String },
-    _room: { type: Number },
+    _room: { type: Number, default: numRoom },
     _connected: { type: Boolean, default: false },
     _id_socket_io: { type: String },
     _dade_created: {
