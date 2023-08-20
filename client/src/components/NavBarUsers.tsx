@@ -6,11 +6,12 @@ import { useSetRecoilState } from "recoil";
 import { atomDataClickedUser, atomNumRoom } from "../atom/atom";
 import { sockets } from "./HomeMessages";
 import { Socket, io } from "socket.io-client";
+import MouseToolbar from "./MouseToolbar";
 interface Data {
   _id: string;
   _fullName: string;
   _email: string;
-  _connected:boolean
+  _connected: boolean;
   _dade_created: string;
 }
 
@@ -23,12 +24,12 @@ const NavBarUsers = (props: { onInOpen: Function; open: boolean }) => {
     {}
   );
   const [dataUsers, setDataUsers] = useState<Data[]>();
-  
+  const [listIndex, setListIndex] = useState<number>();
+
   const setAtomNumRoo = useSetRecoilState(atomNumRoom);
   const setClickedUser = useSetRecoilState(atomDataClickedUser);
-  
+
   useEffect(() => {
-    // Connect to the Socket.IO server
     const newSocket = io("http://localhost:3001");
     setSocket(newSocket);
 
@@ -41,10 +42,9 @@ const NavBarUsers = (props: { onInOpen: Function; open: boolean }) => {
           ...prevStatus,
           [updatedUserId]: isOnline,
         }));
-      
       }
     );
-   
+
     return () => {
       newSocket.disconnect();
     };
@@ -54,7 +54,7 @@ const NavBarUsers = (props: { onInOpen: Function; open: boolean }) => {
     apiPost({ _id: localStorage.getItem("idMyUser") }, "getAllUsers")
       .then((data) => {
         console.log(data);
-        
+
         setDataUsers(data);
       })
       .catch((err) => console.log(err));
@@ -69,38 +69,50 @@ const NavBarUsers = (props: { onInOpen: Function; open: boolean }) => {
     room && sockets.emit("join_room", room);
   };
 
+  const customStyles = {
+    importantItem: {
+      backgroundColor: '#d9e1e948', 
+    },
+    normalItem: {
+      backgroundColor: '#83C1ED',
+    },
+  };
   return (
     <>
       {dataUsers ? (
-        dataUsers?.map((element, index) => {
-          console.log(usersStatus);
-
-          return (
-            <List key={index}>
+        <>
+          <MouseToolbar
+            userName={localStorage.getItem("userName")?.toString()}
+          ></MouseToolbar>
+          {dataUsers?.map((element, index) => (
+          <List key={index}   sx={(props.open ===true && index === listIndex) ? 
+            customStyles.importantItem :customStyles.normalItem }>
               <ListItem
                 button
                 onClick={async () => {
+
                   setClickedUser(element);
                   sendApi(element);
+                  setListIndex(index)
                   props.open !== true
                     ? props.onInOpen(true)
                     : props.onInOpen(false);
                 }}
               >
-                {( usersStatus[element._id] !== false )  && (
+                {usersStatus[element._id] !== false && (
                   <PersonPinIcon
                     sx={{ position: "static", bottom: 0, left: 0, right: 0 }}
                     elevation={3}
                   />
                 )}
                 <ListItemText
-                  primary={element._id}
-                  secondary={element._fullName}
+                  primary={element._fullName}
+                  // secondary={element._id}
                 />
               </ListItem>
             </List>
-          );
-        })
+          ))}
+        </>
       ) : (
         <div>Loading...</div>
       )}

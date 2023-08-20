@@ -42,6 +42,7 @@ const LogIn = ({ toUrlServer }: IProps) => {
           if (res) {
             localStorage.setItem("user", "true");
             localStorage.setItem("idMyUser", res._id);
+            localStorage.setItem("userName", res._fullName);
             navigate(0);
           } else {
             setMessage("User does not exist in the system");

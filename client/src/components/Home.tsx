@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 // import  from "@mui/material/Box";
-import { Grid ,Box} from '@mui/material';
+import { Grid, Box } from "@mui/material";
 import NavBarUsers from "./NavBarUsers";
 import PageMessages from "./PageMessages";
 import { useSetRecoilState } from "recoil";
@@ -8,26 +8,37 @@ import { atomDataListMessages } from "../atom/atom";
 
 const Home = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const  setListMessages = useSetRecoilState(atomDataListMessages);
+  const setListMessages = useSetRecoilState(atomDataListMessages);
 
-useEffect(()=>{
-  setListMessages([])
+  useEffect(() => {
+    setListMessages([]);
+  }, [isOpen, setListMessages]);
 
-},[isOpen,setListMessages])
+  const style = {
+    backgroundColor: "#83C1ED",
+    width: { xs: "100%", sm: "30%", md: "30%", xl: "30%" },
+    height: { xs: "30%", sm: "100vh", md: "100vh", xl: "100vh" },
+  };
 
   return (
     <>
-      <Box maxWidth={"1400px"} maxHeight={"1200px"}>
+      <Box 
+          height='100vh'
+          >
         <Grid
           container
           direction="row"
           justifyContent="flex-start"
           alignItems="flex-start"
         >
-          <Grid item xs={4}>
+          <Grid item sx={style}>
             <NavBarUsers onInOpen={setIsOpen} open={isOpen} />
           </Grid>
-          <Grid item xs={8} height={"1200px"}>
+          <Grid
+            item
+            sx={{ width: { xs: "100%", sm: "70%", md: "70%", xl: "70%" },
+           }}
+          >
             {isOpen && <PageMessages />}
           </Grid>
         </Grid>

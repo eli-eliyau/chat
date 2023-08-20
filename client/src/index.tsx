@@ -8,11 +8,13 @@ import { RecoilRoot } from "recoil";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
-);
+ 
+  );
 root.render(
   <RecoilRoot>
     <React.StrictMode>
       <BrowserRouter>
+
         <App />
       </BrowserRouter>
     </React.StrictMode>

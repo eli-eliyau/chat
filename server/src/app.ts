@@ -5,8 +5,8 @@ import cors from "cors";
 import connectingDB from "./db/connecing";
 import router from "./routers/routers";
 import socketIo from "./socket.io";
-import path  from 'path'
-connectingDB;
+
+connectingDB 
 
 const app = express();
 
@@ -19,15 +19,13 @@ export const io = new Server(server, {
   },
 });
 
-socketIo(io);
-
-app.use(express.static(path.join(__dirname, 'public')));
-
 app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 
 app.use(express.json());
 
 app.use("/api", router);
+
+socketIo(io);
 
 server.listen(3001, () => {
   console.log("server is run port 3001");

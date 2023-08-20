@@ -16,9 +16,7 @@ exports.getAllUsers = void 0;
 const sUser_1 = __importDefault(require("../schemas/sUser"));
 const getAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const allUsers = yield sUser_1.default.find({}, 
-        // { _id: { $ne: req.body._id } },
-        { __v: 0, dade_created: 0, _password: 0 });
+        const allUsers = yield sUser_1.default.find({ _id: { $ne: req.body._id } }, { __v: 0, dade_created: 0, _password: 0 });
         allUsers ? res.send(allUsers) : res.send(false);
     }
     catch (err) {

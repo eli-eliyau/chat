@@ -7,13 +7,18 @@ interface Data {
   _dade_created: string;
 }
 export interface TypeMessage{
-  text: string ,
-  user: string| null, 
-  userTo:string | null
-  date:  string,
+  text?: string ,
+  user?: string| null, 
+  userTo?:string ,
+  date?:  string ,
+  file?:  {
+    name: string, url: string ,date:string
+  }
 }
 
-
+export interface F1 {
+  name: string, url: string
+}
 export const atomDataClickedUser = atom<Data>({
   key: "DataClickedUser",
   default: {
@@ -29,8 +34,10 @@ export const atomNumRoom = atom({
   default: 0,
 });
 
-export const atomDataListMessages = atom<TypeMessage[]>({
+export const atomDataListMessages = atom<TypeMessage[] >({
   key: "DataMessages",
   default: [],
 });
+
+
 

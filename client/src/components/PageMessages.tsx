@@ -6,30 +6,33 @@ import HomeMessages from "./HomeMessages";
 const PageMessages = () => {
   return (
     <Grid
-      container
-      direction="column"
-      justifyContent="flex-start"
-      alignItems="flex-start"
+      // container
+      // direction="column"
+      // justifyContent="flex-start"
+      // alignItems="flex-start"
+      sx={{
+        width: "100%",
+        height: { xs: "100vh", sm: "100vh", md: "100vh", xl: "100vh" },
+     }}
     >
       <Grid
         item
-        width={"100%"}
+        overflow={"auto"}
         sx={{
-          height: {
-            xs: "92vh", //0
-            sm: "92vh", //600
-            md: "92vh", //900
-            lg: "92vh", //1200
-            xl: "92vh", //1536
-          },
-          overflow: "auto",
-          background: "red",
+          width: "100%",
+          height: { xs: "60%", sm: "90%", md: "90%", xl: "90%" },
         }}
       >
         <HomeMessages />
       </Grid>
-      <Grid width={"100%"}>
-        <InputMessage label={"Message"} type={'submit'} sx={{ mt: 2, mb: 1 }}/>
+      <Grid
+      
+        sx={{
+          width: "100%",
+          height: { xs: "30%", sm: "10%", md: "10%", xl: "10%" },
+        }}
+      >
+        <InputMessage />
       </Grid>
     </Grid>
   );

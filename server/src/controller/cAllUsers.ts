@@ -3,8 +3,8 @@ import { Request, Response } from "express";
 
 const getAllUsers = async (req: Request, res: Response) => {
   try {
-    const allUsers = await UsersSchema.find({},
-      // { _id: { $ne: req.body._id } },
+    const allUsers = await UsersSchema.find(
+      { _id: { $ne: req.body._id } },
       { __v: 0, dade_created: 0, _password: 0 }
     );
 

@@ -13,6 +13,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const sUser_1 = __importDefault(require("../schemas/sUser"));
+const fs_1 = __importDefault(require("fs"));
+const path_1 = __importDefault(require("path"));
 const onlineUsers = new Map();
 const connectedUsers = new Map();
 const message = new Map();
@@ -27,7 +29,7 @@ const socketIo = (io) => {
                 console.log('User not found.');
                 return;
             }
-            console.log('Updated User:', updatedUser);
+            // console.log('Updated User:', updatedUser);
         }));
         const userId = socket.id;
         onlineUsers.set("id", userId);
@@ -41,6 +43,19 @@ const socketIo = (io) => {
         });
         socket.on("send_messageAndRoom", (data) => {
             socket.to(data.numRoom).emit("receive_room", data);
+        });
+        socket.on('file_upload', (file) => {
+            console.log(`Received file: ${file.name}, size: ${file.data.byteLength} bytes`);
+            const filePath = path_1.default.join(`C:\\fullstack\\projects\\Chat Application\\chat\\server\\src\\public`, 'uploads', file.name);
+            const buffer = Buffer.from(file.data);
+            fs_1.default.writeFileSync(filePath, buffer);
+            fs_1.default.readFile(filePath, (err, data) => {
+                if (err) {
+                    console.error('Error reading file:', err);
+                    return;
+                }
+                io.emit('download_file', { user: file.user, userTo: file.userTo, name: file.name, data, date: file.date });
+            });
         });
         socket.on('disconnect', () => __awaiter(void 0, void 0, void 0, function* () {
             for (const [userId, id] of connectedUsers.entries()) {

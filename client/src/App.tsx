@@ -4,6 +4,7 @@ import LogIn from "./components/LogIn";
 import Home from "./components/Home";
 import { useEffect, useState } from "react";
 import io, {Socket} from 'socket.io-client';
+import MouseToolbar from "./components/MouseToolbar";
 // export const socket = io.connect("http://localhost:3001");
 function App() {
  
@@ -37,10 +38,12 @@ function App() {
           <Route path="*" element={<Navigate replace to="/sign-in" />} />
         </Routes>
       ) : userExist === "true" ? (
+        <>
         <Routes>
           <Route path="/home" element={<Home />} />
           <Route path="/*" element={<Navigate replace to="/home" />} />
         </Routes>
+        </>
       ) : (
         ""
       )}
