@@ -1,14 +1,35 @@
-import React, { useEffect, useState } from "react";
-// import  from "@mui/material/Box";
-import { Grid, Box } from "@mui/material";
+import { useEffect, useState } from "react";
+import { Grid, Box, Slide } from "@mui/material";
 import NavBarUsers from "./NavBarUsers";
 import PageMessages from "./PageMessages";
 import { useSetRecoilState } from "recoil";
 import { atomDataListMessages } from "../atom/atom";
+import imgMessage from "../img/imgMessage.png";
+
+type Direction = "left" | "right" | "up" | "down";
 
 const Home = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const setListMessages = useSetRecoilState(atomDataListMessages);
+  const [visible, setVisible] = useState<boolean>(true);
+  const [direction, setDirection] = useState<Direction>("left");
+
+  useEffect(() => {
+    const directions: Direction[] = ["left", "right", "up", "down"];
+
+    const interval = setInterval(() => {
+      setVisible(false);
+
+      const randomIndex = Math.floor(Math.random() * directions.length);
+      setDirection(directions[randomIndex]);
+
+      setTimeout(() => {
+        setVisible(true);
+      }, 1000);
+    }, 1000 * 8);
+
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     setListMessages([]);
@@ -22,9 +43,7 @@ const Home = () => {
 
   return (
     <>
-      <Box 
-          height='100vh'
-          >
+      <Box height="100vh">
         <Grid
           container
           direction="row"
@@ -36,10 +55,23 @@ const Home = () => {
           </Grid>
           <Grid
             item
-            sx={{ width: { xs: "100%", sm: "70%", md: "70%", xl: "70%" },
-           }}
+            sx={{ width: { xs: "100%", sm: "70%", md: "70%", xl: "70%" } }}
           >
-            {isOpen && <PageMessages />}
+            {isOpen ? (
+              <PageMessages />
+            ) : (
+              <Slide direction={direction} in={visible} timeout={1000}>
+                <img
+                  src={imgMessage}
+                  style={{
+                    position: "fixed",
+                    zIndex: -1,
+                    right: "20%",
+                    transform: "translateY(-50%)",
+                  }}
+                />
+              </Slide>
+            )}
           </Grid>
         </Grid>
       </Box>

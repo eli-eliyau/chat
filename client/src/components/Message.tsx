@@ -6,13 +6,12 @@ import { TypeMessage } from "../atom/atom";
 
 export const styles = {
   left: {
-    background: "#7ce6eb87",
+    background: "#7ce6ebbb",
     mt: 2,
     ml: 1,
     pl: 1,
     overflowWrap: "break-word",
     borderRadius: "0px 25px 25px 25px",
-    // border: "5px solid #7CE6EB",
   },
   right: {
     background: "#01919996",
@@ -21,12 +20,13 @@ export const styles = {
     pr: 1,
     overflowWrap: "break-word",
     borderRadius: "25px 0px 25px 25px",
-    // border: "5px solid #019299",
   },
 };
 
 export const getDateNow = (date?: string) => (
-  <Moment format="h:mm:ss DD/MM/YYYY">{date}</Moment>
+  <Typography variant="caption">
+  <Moment format="h:mm DD/MM/YYYY">{date}</Moment>
+  </Typography>
 );
 
 const Message = (props: {

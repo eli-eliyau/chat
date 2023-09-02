@@ -8,12 +8,11 @@ const onlineUsers = new Map();
 const connectedUsers = new Map();
 const message = new Map();
 
-const socketIo =  (
+const socketIo = (
   io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>
 ) => {
-   io.on("connection", (socket) => {
+  io.on("connection", (socket) => {
     console.log("eli", `${socket.id}`);
-
 
     socket.on('userConnected', async (userId) => {
       connectedUsers.set(userId, socket.id);
@@ -49,7 +48,7 @@ const socketIo =  (
     });
 
 
-    socket.on('file_upload', (file: { user: string, userTo: string, name: string, data: ArrayBuffer ,date:string}) => {
+    socket.on('file_upload', (file: { user: string, userTo: string, name: string, data: ArrayBuffer, date: string }) => {
       console.log(`Received file: ${file.name}, size: ${file.data.byteLength} bytes`);
 
       const filePath = path.join(`C:\\fullstack\\projects\\Chat Application\\chat\\server\\src\\public`, 'uploads', file.name);
@@ -63,7 +62,7 @@ const socketIo =  (
           return;
         }
 
-        io.emit('download_file', { user: file.user, userTo: file.userTo, name: file.name, data ,date:file.date});
+        io.emit('download_file', { user: file.user, userTo: file.userTo, name: file.name, data, date: file.date });
       });
     });
 

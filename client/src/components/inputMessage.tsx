@@ -92,7 +92,7 @@ const InputMessage = () => {
     }
   };
 
-  const style= {
+  const style = {
     mt: 2,
     mb: 2,
     background: 0,
@@ -100,19 +100,11 @@ const InputMessage = () => {
     "&:hover": { background: "#4CE1E1" },
   };
 
-
   return (
-    <Box
-      component="form"
-      onSubmit={handleSubmit}
-      noValidate
-     
-
-    >
-       
+    <Box component="form" onSubmit={handleSubmit} noValidate>
       <TextField
         margin="normal"
-        // variant="standard"
+        variant="outlined"
         required
         fullWidth
         id="message"
@@ -121,9 +113,9 @@ const InputMessage = () => {
         autoComplete="message"
         autoFocus
         multiline
-        maxRows={5}
+        // maxRows={5}
         value={valueMessage}
-        sx={{ paddingY:0}}
+        sx={{ backgroundColor:"#83c1ed6c" }}
         onChange={(e) => setValueMessage(e.target.value)}
         InputProps={{
           endAdornment: (

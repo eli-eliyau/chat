@@ -12,7 +12,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { apiPost } from "../apiServer/apiToServer";
+import { API_SERVER, apiPost } from "../apiServer/apiToServer";
 import { useNavigate } from "react-router-dom";
 
 interface IProps {
@@ -111,10 +111,7 @@ const LogIn = ({ toUrlServer }: IProps) => {
                 id="password"
                 autoComplete="current-password"
               />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
+            
               <Button
                 type="submit"
                 fullWidth
@@ -124,16 +121,9 @@ const LogIn = ({ toUrlServer }: IProps) => {
                 {toUrlServer === "signIn" ? "Sign in" : "Sign up"}
               </Button>
               <Grid container>
-                <Grid item xs>
-                  {toUrlServer === "signIn" && (
-                    <Link href="#" variant="body2">
-                      Forgot password?
-                    </Link>
-                  )}
-                </Grid>
                 <Grid item>
                   {toUrlServer === "signIn" && (
-                    <Link href="http://localhost:3000/sign-up" variant="body2">
+                    <Link href={`${API_SERVER}/sign-up`} variant="body2">
                       {"Don't have an account? Sign Up"}
                     </Link>
                   )}

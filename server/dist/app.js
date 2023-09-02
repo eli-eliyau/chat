@@ -11,19 +11,21 @@ const cors_1 = __importDefault(require("cors"));
 const connecing_1 = __importDefault(require("./db/connecing"));
 const routers_1 = __importDefault(require("./routers/routers"));
 const socket_io_2 = __importDefault(require("./socket.io"));
+const URL_CLIENT = "http://localhost:3002";
+const PORT = 3005;
 connecing_1.default;
 const app = (0, express_1.default)();
 const server = http_1.default.createServer(app);
 exports.io = new socket_io_1.Server(server, {
     cors: {
-        origin: "http://localhost:3000",
+        origin: `${URL_CLIENT}`,
         methods: ["GET", "POST"],
     },
 });
-app.use((0, cors_1.default)({ origin: "http://localhost:3000", credentials: true }));
+app.use((0, cors_1.default)({ origin: `${URL_CLIENT}`, credentials: true }));
 app.use(express_1.default.json());
 app.use("/api", routers_1.default);
 (0, socket_io_2.default)(exports.io);
-server.listen(3001, () => {
-    console.log("server is run port 3001");
+server.listen(PORT, () => {
+    console.log(`server is run port ${PORT}`);
 });

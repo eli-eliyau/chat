@@ -6,20 +6,22 @@ import connectingDB from "./db/connecing";
 import router from "./routers/routers";
 import socketIo from "./socket.io";
 
-connectingDB 
 
+const URL_CLIENT ="http://localhost:3002"
+const PORT = 3005
+connectingDB
 const app = express();
 
 const server = http.createServer(app);
 
 export const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: `${URL_CLIENT}`,
     methods: ["GET", "POST"],
   },
 });
 
-app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+app.use(cors({ origin: `${URL_CLIENT}`, credentials: true }));
 
 app.use(express.json());
 
@@ -27,6 +29,6 @@ app.use("/api", router);
 
 socketIo(io);
 
-server.listen(3001, () => {
-  console.log("server is run port 3001");
+server.listen(PORT, () => {
+  console.log(`server is run port ${PORT}`);
 });

@@ -1,5 +1,5 @@
 import { getDateNow, styles } from "./Message";
-import { Box, Grid, Link } from "@mui/material";
+import { Box, Grid, Link, Typography } from "@mui/material";
 import SimCardDownloadTwoToneIcon from "@mui/icons-material/SimCardDownloadTwoTone";
 
 const FileDownloaded = (props: {
@@ -17,13 +17,14 @@ const FileDownloaded = (props: {
 
   return (
     <Grid xs={9} sm={7} md={3} sx={style}>
-      <span>
-        <Link href={props.file.url} download={props.file.name}>
-          <SimCardDownloadTwoToneIcon color="action" fontSize="large" />
-        </Link>
-        {props.file?.name}
-      </span>
-
+      <Link href={props.file.url} download={props.file.name}>
+        <SimCardDownloadTwoToneIcon
+          color="action"
+          fontSize="large"
+          sx={{ display: "block", margin: "0 auto", pt: 1 }}
+        />
+      </Link>
+      <Typography variant="body2">{props.file?.name}</Typography>
       <Box sx={{ pt: 1 }}>{getDateNow(props.file.date)}</Box>
     </Grid>
   );
