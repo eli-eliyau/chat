@@ -7,8 +7,9 @@ import router from "./routers/routers";
 import socketIo from "./socket.io";
 
 
-const URL_CLIENT ="http://localhost:3002"
+const URL_CLIENT ="http://localhost:3000"
 const PORT = 3005
+
 connectingDB
 const app = express();
 

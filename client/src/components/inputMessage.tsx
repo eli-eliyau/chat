@@ -14,6 +14,7 @@ import { Input } from "@mui/base";
 import { io } from "socket.io-client";
 import UploadFileTwoToneIcon from "@mui/icons-material/UploadFileTwoTone";
 import SendTwoToneIcon from "@mui/icons-material/SendTwoTone";
+import { API_SOCKET_IO } from "../apiServer/apiToServer";
 
 const InputMessage = () => {
   const numRoom = useRecoilValue(atomNumRoom);
@@ -68,7 +69,7 @@ const InputMessage = () => {
 
   const handleUpload = () => {
     if (selectedFile) {
-      const socket = io("http://localhost:3001");
+      const socket = io(`${API_SOCKET_IO}`);
       const reader = new FileReader();
 
       reader.onload = (event) => {

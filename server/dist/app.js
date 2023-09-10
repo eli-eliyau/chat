@@ -11,7 +11,7 @@ const cors_1 = __importDefault(require("cors"));
 const connecing_1 = __importDefault(require("./db/connecing"));
 const routers_1 = __importDefault(require("./routers/routers"));
 const socket_io_2 = __importDefault(require("./socket.io"));
-const URL_CLIENT = "http://localhost:3002";
+const URL_CLIENT = "http://localhost:3000";
 const PORT = 3005;
 connecing_1.default;
 const app = (0, express_1.default)();
