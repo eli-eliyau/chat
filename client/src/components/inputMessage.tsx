@@ -75,7 +75,7 @@ const InputMessage = () => {
         const fileData = event.target?.result as ArrayBuffer;
 
         let dtatUplaod = {
-          user: localStorage.getItem("idMyUser"),
+          user: localStorage.getItem("chatIdMyUser"),
           userTo: clickedUser._id,
           name: selectedFile.name,
           data: fileData,

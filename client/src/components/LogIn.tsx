@@ -40,9 +40,9 @@ const LogIn = ({ toUrlServer }: IProps) => {
       apiPost(dataUserToForm, toUrlServer)
         .then((res) => {
           if (res) {
-            localStorage.setItem("user", "true");
-            localStorage.setItem("idMyUser", res._id);
-            localStorage.setItem("userName", res._fullName);
+            localStorage.setItem("chatUser", "true");
+            localStorage.setItem("chatIdMyUser", res._id);
+            localStorage.setItem("chatUserName", res._fullName);
             navigate(0);
           } else {
             setMessage("User does not exist in the system");

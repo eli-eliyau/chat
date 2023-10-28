@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const API_SERVER = "http://localhost:3005/api";
+export const API_SERVER = "http://localhost:4000/api";
 
 const apiPost = async (data: object | [{}], toUrlServer: string) => {
   try {

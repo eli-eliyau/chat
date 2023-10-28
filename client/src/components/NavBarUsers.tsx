@@ -18,7 +18,7 @@ interface Data {
 const NavBarUsers = (props: { onInOpen: Function; open: boolean }) => {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [userId, setUserId] = useState<string | null>(
-    localStorage.getItem("idMyUser")
+    localStorage.getItem("chatIdMyUser")
   );
   const [usersStatus, setUsersStatus] = useState<{ [userId: string]: boolean }>(
     {}
@@ -82,7 +82,7 @@ const NavBarUsers = (props: { onInOpen: Function; open: boolean }) => {
       {dataUsers ? (
         <>
           <MouseToolbar
-            userName={localStorage.getItem("userName")?.toString()}
+            userName={localStorage.getItem("chatUserName")?.toString()}
           ></MouseToolbar>
           {dataUsers?.map((element, index) => (
           <List key={index}   sx={(props.open ===true && index === listIndex) ? 

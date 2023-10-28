@@ -3,7 +3,7 @@ import LogIn from "./components/LogIn";
 import Home from "./components/Home";
 
 function App() {
-  let userExist: string | null = localStorage.getItem("user");
+  let userExist: string | null = localStorage.getItem("chatUser");
 
   return (
     <>
