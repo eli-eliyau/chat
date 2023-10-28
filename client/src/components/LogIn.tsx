@@ -12,7 +12,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { API_SERVER, apiPost } from "../apiServer/apiToServer";
+import { API_CLINTE, API_SERVER, apiPost } from "../apiServer/apiToServer";
 import { useNavigate } from "react-router-dom";
 
 interface IProps {
@@ -123,7 +123,7 @@ const LogIn = ({ toUrlServer }: IProps) => {
               <Grid container>
                 <Grid item>
                   {toUrlServer === "signIn" && (
-                    <Link href={`${API_SERVER}/sign-up`} variant="body2">
+                    <Link href={`${API_CLINTE}/sign-up`} variant="body2">
                       {"Don't have an account? Sign Up"}
                     </Link>
                   )}

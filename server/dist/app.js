@@ -11,6 +11,7 @@ const cors_1 = __importDefault(require("cors"));
 const connecing_1 = __importDefault(require("./db/connecing"));
 const routers_1 = __importDefault(require("./routers/routers"));
 const socket_io_2 = __importDefault(require("./socket.io"));
+require("dotenv").config({ path: "../.env" });
 const URL_CLIENT = "http://localhost:3002";
 const PORT = 3005;
 connecing_1.default;
@@ -18,11 +19,11 @@ const app = (0, express_1.default)();
 const server = http_1.default.createServer(app);
 exports.io = new socket_io_1.Server(server, {
     cors: {
-        origin: `${URL_CLIENT}`,
+        origin: process.env.FRONT_URL,
         methods: ["GET", "POST"],
     },
 });
-app.use((0, cors_1.default)({ origin: `${URL_CLIENT}`, credentials: true }));
+app.use((0, cors_1.default)({ origin: process.env.FRONT_URL, credentials: true }));
 app.use(express_1.default.json());
 app.use("/api", routers_1.default);
 (0, socket_io_2.default)(exports.io);

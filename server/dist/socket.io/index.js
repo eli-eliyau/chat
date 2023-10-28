@@ -46,7 +46,7 @@ const socketIo = (io) => {
         });
         socket.on('file_upload', (file) => {
             console.log(`Received file: ${file.name}, size: ${file.data.byteLength} bytes`);
-            const filePath = path_1.default.join(`C:\\fullstack\\projects\\Chat Application\\chat\\server\\src\\public`, 'uploads', file.name);
+            const filePath = path_1.default.join(__dirname, '../uploads', file.name);
             const buffer = Buffer.from(file.data);
             fs_1.default.writeFileSync(filePath, buffer);
             fs_1.default.readFile(filePath, (err, data) => {

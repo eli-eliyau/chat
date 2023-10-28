@@ -7,7 +7,9 @@ import router from "./routers/routers";
 import socketIo from "./socket.io";
 require("dotenv").config({ path: "../.env" });
 
-const PORT = 4000
+
+const URL_CLIENT ="http://localhost:3002"
+const PORT = 3005
 connectingDB
 const app = express();
 

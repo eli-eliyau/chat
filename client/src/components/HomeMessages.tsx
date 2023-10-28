@@ -5,6 +5,7 @@ import { TypeMessage, atomDataListMessages } from "../atom/atom";
 import { io, Socket } from "socket.io-client";
 import Message from "./Message";
 import FileDownloaded from "./FileDownloaded";
+import { API_SOCKET_IO } from "../apiServer/apiToServer";
 
 export let sockets: Socket;
 
@@ -18,7 +19,7 @@ const HomeMessages = () => {
   }, [listMessages]);
 
   useEffect(() => {
-    socketClient.current = sockets = io("http://localhost:3001");
+    socketClient.current = sockets = io(`${API_SOCKET_IO}`);
 
     if (sockets) {
       socketClient.current.on("event-name", (data: any) => {

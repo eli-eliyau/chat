@@ -1,7 +1,7 @@
 import { List, ListItem, ListItemText } from "@mui/material";
 import PersonPinIcon from "@mui/icons-material/PersonPin";
 import { useEffect, useState } from "react";
-import { apiPost } from "../apiServer/apiToServer";
+import { API_SOCKET_IO, apiPost } from "../apiServer/apiToServer";
 import { useSetRecoilState } from "recoil";
 import { atomDataClickedUser, atomNumRoom } from "../atom/atom";
 import { sockets } from "./HomeMessages";
@@ -30,7 +30,7 @@ const NavBarUsers = (props: { onInOpen: Function; open: boolean }) => {
   const setClickedUser = useSetRecoilState(atomDataClickedUser);
 
   useEffect(() => {
-    const newSocket = io("http://localhost:3001");
+    const newSocket = io(`${API_SOCKET_IO}`);
     setSocket(newSocket);
 
     newSocket.emit("userConnected", userId);

@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import LogIn from "./components/LogIn";
 import Home from "./components/Home";
 
+
 function App() {
   let userExist: string | null = localStorage.getItem("chatUser");
 
