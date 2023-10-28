@@ -8,8 +8,7 @@ import socketIo from "./socket.io";
 require("dotenv").config({ path: "../.env" });
 
 
-const URL_CLIENT ="http://localhost:3002"
-const PORT = 3005
+const PORT = 4000
 connectingDB
 const app = express();
 

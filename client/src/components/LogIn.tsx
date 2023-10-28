@@ -45,7 +45,9 @@ const LogIn = ({ toUrlServer }: IProps) => {
             localStorage.setItem("chatUserName", res._fullName);
             navigate(0);
           } else {
-            setMessage("User does not exist in the system");
+            toUrlServer === "signIn"
+              ? setMessage("User does not exist in the system")
+              : setMessage("User does exist in the system");
           }
         })
         .catch((err) => {
@@ -84,6 +86,7 @@ const LogIn = ({ toUrlServer }: IProps) => {
                   margin="normal"
                   required
                   fullWidth
+                  type="text"
                   id="fullName"
                   label="full name"
                   name="fullName"
@@ -96,6 +99,7 @@ const LogIn = ({ toUrlServer }: IProps) => {
                 required
                 fullWidth
                 id="email"
+                type="email"
                 label="Email Address"
                 name="email"
                 autoComplete="email"
@@ -111,7 +115,7 @@ const LogIn = ({ toUrlServer }: IProps) => {
                 id="password"
                 autoComplete="current-password"
               />
-            
+
               <Button
                 type="submit"
                 fullWidth
