@@ -10,11 +10,9 @@ const socket_io_1 = require("socket.io");
 const cors_1 = __importDefault(require("cors"));
 const routers_1 = __importDefault(require("./routers/routers"));
 const socket_io_2 = __importDefault(require("./socket.io"));
-
 require("./db/connecing");
 require("dotenv").config({ path: "../.env" });
 const PORT = 4000;
-
 const app = (0, express_1.default)();
 const server = http_1.default.createServer(app);
 exports.io = new socket_io_1.Server(server, {
