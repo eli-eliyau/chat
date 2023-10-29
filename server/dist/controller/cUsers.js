@@ -16,10 +16,6 @@ exports.insertUser = exports.userExist = void 0;
 const sUser_1 = __importDefault(require("../schemas/sUser"));
 const userExist = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        // const dataUser = await UsersSchema.findOne({
-        //   _email: req.body._email,
-        //   _password: req.body._password,
-        // });
         const dataUser = yield sUser_1.default.findOne({
             $and: [{ _email: req.body._email, }, { _password: req.body._password }]
         });
@@ -32,14 +28,13 @@ const userExist = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.userExist = userExist;
 const insertUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        console.log(req.body);
         let user = yield sUser_1.default.findOne({
             $or: [{ _email: req.body._email }, { _fullName: req.body._fullName }]
         });
         if (user)
             return res.send(false);
         const dataUser = yield new sUser_1.default(req.body);
-        dataUser.save();
+        yield dataUser.save();
         dataUser ? res.send(dataUser) : res.send(false);
     }
     catch (err) {

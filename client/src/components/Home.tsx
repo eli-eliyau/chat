@@ -5,6 +5,8 @@ import PageMessages from "./PageMessages";
 import { useSetRecoilState } from "recoil";
 import { atomDataListMessages } from "../atom/atom";
 import imgMessage from "../img/imgMessage.png";
+import axios from "axios";
+import { API_SERVER } from "../apiServer/apiToServer";
 
 type Direction = "left" | "right" | "up" | "down";
 
@@ -33,12 +35,15 @@ const Home = () => {
 
   useEffect(() => {
     setListMessages([]);
+
+    // לקוח
   }, [isOpen, setListMessages]);
 
   const style = {
-    backgroundColor: "#83C1ED",
+    background: 'linear-gradient(0deg, rgba(131,193,237,1) 31%, rgba(6,98,163,1) 100%)',
     width: { xs: "100%", sm: "30%", md: "30%", xl: "30%" },
     height: { xs: "30%", sm: "100vh", md: "100vh", xl: "100vh" },
+    boxShadow:'20'
   };
 
   return (

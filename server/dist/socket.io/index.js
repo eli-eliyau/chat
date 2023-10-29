@@ -22,14 +22,17 @@ const socketIo = (io) => {
     io.on("connection", (socket) => {
         console.log("eli", `${socket.id}`);
         socket.on('userConnected', (userId) => __awaiter(void 0, void 0, void 0, function* () {
-            connectedUsers.set(userId, socket.id);
-            console.log(connectedUsers);
-            const updatedUser = yield sUser_1.default.findByIdAndUpdate(userId, { $set: { _connected: true } });
-            if (!updatedUser) {
-                console.log('User not found.');
-                return;
+            try {
+                connectedUsers.set(userId, socket.id);
+                console.log(connectedUsers);
+                const updatedUser = yield sUser_1.default.findByIdAndUpdate(userId, { $set: { _connected: true } });
+                if (!updatedUser) {
+                    return;
+                }
             }
-            // console.log('Updated User:', updatedUser);
+            catch (error) {
+                console.error('An error occurred:', error);
+            }
         }));
         const userId = socket.id;
         onlineUsers.set("id", userId);
@@ -38,7 +41,7 @@ const socketIo = (io) => {
             socket.broadcast.emit("receive_message", data);
         });
         socket.on("join_room", (data) => {
-            console.log("join room num", data);
+            // console.log("join room num", data);
             socket.join(data);
         });
         socket.on("send_messageAndRoom", (data) => {

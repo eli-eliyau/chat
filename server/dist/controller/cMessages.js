@@ -16,9 +16,8 @@ exports.setMessage = void 0;
 const sMessages_1 = __importDefault(require("../schemas/sMessages"));
 const setMessage = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        console.log(req.body);
         const data = yield new sMessages_1.default(req.body);
-        data.save();
+        yield data.save();
         data ? res.send(data) : res.send(false);
     }
     catch (error) {

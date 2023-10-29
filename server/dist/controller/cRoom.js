@@ -20,17 +20,16 @@ const updateNumRoom = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         const user1 = yield sUser_1.default.findOne({ _id: req.body[0]._id }).select("_room");
         const user2 = yield sUser_1.default.findOne({ _id: req.body[1]._id }).select("_room");
         let numRoom = Math.floor(Math.random() * (100 - 1 + 1)) + 1;
-        (user1 === null || user1 === void 0 ? void 0 : user1._room) != (user2 === null || user2 === void 0 ? void 0 : user2._room) &&
-            usersToUpdate.map((_id) => __awaiter(void 0, void 0, void 0, function* () {
-                return yield sUser_1.default.updateOne({ _id: _id }, { _room: numRoom });
+        if ((user1 === null || user1 === void 0 ? void 0 : user1._room) !== (user2 === null || user2 === void 0 ? void 0 : user2._room)) {
+            yield Promise.all(usersToUpdate.map((_id) => {
+                return sUser_1.default.findOneAndUpdate({ _id: _id }, { _room: numRoom }, { new: true });
             }));
-        const room = yield sUser_1.default.findOne({
-            _id: req.body[1]._id,
-        }).select("_room");
-        room ? res.json(room._room) : res.send(false);
+        }
+        const room = yield sUser_1.default.findOne({ _id: req.body[1]._id }).select("_room");
+        room ? res.send(`${room._room}`) : res.status(404).send('Room not found');
     }
     catch (error) {
-        console.log(error);
+        res.status(500).send(error);
     }
 });
 exports.updateNumRoom = updateNumRoom;

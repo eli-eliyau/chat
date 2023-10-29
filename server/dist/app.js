@@ -8,12 +8,11 @@ const express_1 = __importDefault(require("express"));
 const http_1 = __importDefault(require("http"));
 const socket_io_1 = require("socket.io");
 const cors_1 = __importDefault(require("cors"));
-const connecing_1 = __importDefault(require("./db/connecing"));
 const routers_1 = __importDefault(require("./routers/routers"));
 const socket_io_2 = __importDefault(require("./socket.io"));
-require("dotenv").config({ path: "../.env" });
+require("./db/connecing");
+require("dotenv").config({ path: "./.env" });
 const PORT = 4000;
-connecing_1.default;
 const app = (0, express_1.default)();
 const server = http_1.default.createServer(app);
 exports.io = new socket_io_1.Server(server, {
