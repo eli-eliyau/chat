@@ -15,15 +15,18 @@ const socketIo = (
     console.log("eli", `${socket.id}`);
 
     socket.on('userConnected', async (userId) => {
-      connectedUsers.set(userId, socket.id);
-      console.log(connectedUsers);
-
-      const updatedUser = await UsersSchema.findByIdAndUpdate(userId, { $set: { _connected: true } },)
-      if (!updatedUser) {
-        console.log('User not found.');
-        return;
+      try {
+        connectedUsers.set(userId, socket.id);
+        console.log(connectedUsers);
+    
+        const updatedUser = await UsersSchema.findByIdAndUpdate(userId, { $set: { _connected: true } },)
+        
+        if (!updatedUser) {
+          return;
+        }
+      } catch (error) {
+        console.error('An error occurred:', error);
       }
-      // console.log('Updated User:', updatedUser);
     });
 
     const userId = socket.id;
@@ -37,7 +40,7 @@ const socketIo = (
 
 
     socket.on("join_room", (data) => {
-      console.log("join room num", data);
+      // console.log("join room num", data);
       socket.join(data);
     });
 

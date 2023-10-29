@@ -60,7 +60,7 @@ const HomeMessages = () => {
       >
         {listMessages.map((key: TypeMessage, index) => (
           <>
-            {key.user === localStorage.getItem("idMyUser") ? (
+            {key.user === localStorage.getItem("chatIdMyUser") ? (
               <Grid item>
                 {key.file ? (
                   <FileDownloaded file={key.file} left="left" />

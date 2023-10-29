@@ -36,7 +36,7 @@ const InputMessage = () => {
     if (message.trim() !== "") {
       const newMessage = {
         text: String(data.get("message")),
-        user: localStorage.getItem("idMyUser"),
+        user: localStorage.getItem("chatIdMyUser"),
         userTo: clickedUser._id,
         date: new Date().toISOString(),
       };
@@ -46,7 +46,7 @@ const InputMessage = () => {
       setValueMessage("");
       // apiPost(
       //   {
-      //     _id_from_user: localStorage.getItem("idMyUser"),
+      //     _id_from_user: localStorage.getItem("chatIdMyUser"),
       //     _id_to_user: clickedUser._id,
       //     _message: n,
       //   },
@@ -76,7 +76,7 @@ const InputMessage = () => {
         const fileData = event.target?.result as ArrayBuffer;
 
         let dtatUplaod = {
-          user: localStorage.getItem("idMyUser"),
+          user: localStorage.getItem("chatIdMyUser"),
           userTo: clickedUser._id,
           name: selectedFile.name,
           data: fileData,

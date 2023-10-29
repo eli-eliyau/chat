@@ -18,7 +18,7 @@ interface Data {
 const NavBarUsers = (props: { onInOpen: Function; open: boolean }) => {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [userId, setUserId] = useState<string | null>(
-    localStorage.getItem("idMyUser")
+    localStorage.getItem("chatIdMyUser")
   );
   const [usersStatus, setUsersStatus] = useState<{ [userId: string]: boolean }>(
     {}
@@ -51,7 +51,7 @@ const NavBarUsers = (props: { onInOpen: Function; open: boolean }) => {
   }, [userId]);
 
   useEffect(() => {
-    apiPost({ _id: localStorage.getItem("idMyUser") }, "getAllUsers")
+    apiPost({ _id: localStorage.getItem("chatIdMyUser") }, "getAllUsers")
       .then((data) => {
         console.log(data);
 
@@ -62,38 +62,47 @@ const NavBarUsers = (props: { onInOpen: Function; open: boolean }) => {
 
   const sendApi = async (element: Data) => {
     const room = await apiPost(
-      [{ _id: element._id }, { _id: localStorage.getItem("idMyUser") }],
+      [{ _id: element._id }, { _id: localStorage.getItem("chatIdMyUser") }],
       "numRoom"
     );
-    setAtomNumRoo(room);
-    room && sockets.emit("join_room", room);
+
+    if (room) {
+      setAtomNumRoo(room);
+      sockets.emit("join_room", room);
+    }
   };
 
   const customStyles = {
     importantItem: {
-      backgroundColor: '#d9e1e948', 
+      backgroundColor: "#83C1ED",
+
     },
     normalItem: {
-      backgroundColor: '#83C1ED',
+      backgroundColor: "",
     },
   };
   return (
     <>
       {dataUsers ? (
         <>
-          <MouseToolbar
-            userName={localStorage.getItem("userName")?.toString()}
+          <MouseToolbar 
+            userName={localStorage.getItem("chatUserName")?.toString()}
           ></MouseToolbar>
           {dataUsers?.map((element, index) => (
-          <List key={index}   sx={(props.open ===true && index === listIndex) ? 
-            customStyles.importantItem :customStyles.normalItem }>
+            <List
+              key={index}
+              sx={
+                props.open === true && index === listIndex
+                  ? customStyles.importantItem
+                  : customStyles.normalItem
+              }
+            >
               <ListItem
                 button
                 onClick={async () => {
-
                   setClickedUser(element);
                   sendApi(element);
-                  setListIndex(index)
+                  setListIndex(index);
                   props.open !== true
                     ? props.onInOpen(true)
                     : props.onInOpen(false);
