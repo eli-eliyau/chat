@@ -5,7 +5,7 @@ import cors from "cors";
 import router from "./routers/routers";
 import socketIo from "./socket.io";
 import './db/connecing'
-require("dotenv").config({ path: "./.env" });
+require("dotenv").config({ path: "../.env" });
 
 
 const PORT = 4000
