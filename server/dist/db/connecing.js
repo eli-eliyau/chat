@@ -18,7 +18,7 @@ main().catch((err) => console.log(err));
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            yield mongoose_1.default.connect(`${process.env.CONNECING_TO_DB}`);
+            yield mongoose_1.default.connect('mongodb+srv://Projects:qcran4bvydnObCNu@cluster0.ywfj6da.mongodb.net/chatProject');
             console.log("mongoDB connected");
         }
         catch (err) {
