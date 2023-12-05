@@ -5,11 +5,11 @@ import cors from "cors";
 import router from "./routers/routers";
 import socketIo from "./socket.io";
 import './db/connecing'
-import path from "node:path";
 require("dotenv").config({ path: "./.env" });
 
 
 const PORT = 4000
+
 const app = express();
 
 const server = http.createServer(app);

@@ -11,12 +11,11 @@ const cors_1 = __importDefault(require("cors"));
 const routers_1 = __importDefault(require("./routers/routers"));
 const socket_io_2 = __importDefault(require("./socket.io"));
 require("./db/connecing");
-const node_path_1 = __importDefault(require("node:path"));
 require("dotenv").config({ path: "./.env" });
 const PORT = 4000;
 const app = (0, express_1.default)();
 const server = http_1.default.createServer(app);
-const buildClient = node_path_1.default.join(__dirname, '../../client/build/index.html');
+const buildClient = path.join(__dirname, '../../client/build/index.html');
 exports.io = new socket_io_1.Server(server, {
     cors: {
         origin: process.env.CLIENT_URL,
@@ -27,7 +26,7 @@ app.use((0, cors_1.default)({ origin: process.env.CLIENT_URL, credentials: true 
 app.use(express_1.default.json());
 app.use("/api", routers_1.default);
 (0, socket_io_2.default)(exports.io);
-app.use(express_1.default.static(node_path_1.default.join(__dirname, "../../client/build")));
+app.use(express_1.default.static(path.join(__dirname, "../../client/build")));
 // app.get("*", (req: Request, res: Response) => {
 // res.sendFile(path.join(__dirname, "../../client/build/index.html"));
 // });
