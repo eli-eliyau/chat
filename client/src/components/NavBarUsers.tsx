@@ -7,7 +7,7 @@ import { atomDataClickedUser, atomNumRoom } from "../atom/atom";
 import { sockets } from "./HomeMessages";
 import { Socket, io } from "socket.io-client";
 import MouseToolbar from "./MouseToolbar";
-import imgHome from "../img/imgHome .png";
+import imgHome from "../img/imgHome.png";
 
 interface Data {
   _id: string;
@@ -86,19 +86,18 @@ const NavBarUsers = (props: { onInOpen: Function; open: boolean }) => {
     <Box width={"100%"} height={"100vh"}>
       {dataUsers ? (
         <>
-          <Grid height={"6%"}>
             <MouseToolbar
               userName={localStorage.getItem("chatUserName")?.toString()}
             ></MouseToolbar>
-          </Grid>
           <Grid
             container
             direction="column"
             justifyContent="space-between"
             alignItems="flex-start"
-            height={"94%"}
+            height={"90%"}
+            width={"100%"}
           >
-            <Grid item height={"80%"} width={"100%"}>
+            <Grid item >
               {dataUsers?.map((element, index) => (
                 <List
                   key={index}
@@ -146,7 +145,7 @@ const NavBarUsers = (props: { onInOpen: Function; open: boolean }) => {
               direction="row"
               justifyContent="center"
               alignItems="center"
-              height={"20%"}
+              height={"30%"}
             >
               <img src={imgHome} width={"30%"} height={"50%"}/>
             </Grid>
