@@ -1,4 +1,4 @@
-import { List, ListItem, ListItemText } from "@mui/material";
+import { Box, Grid, List, ListItem, ListItemText } from "@mui/material";
 import PersonPinIcon from "@mui/icons-material/PersonPin";
 import { useEffect, useState } from "react";
 import { API_SOCKET_IO, apiPost } from "../apiServer/apiToServer";
@@ -7,6 +7,8 @@ import { atomDataClickedUser, atomNumRoom } from "../atom/atom";
 import { sockets } from "./HomeMessages";
 import { Socket, io } from "socket.io-client";
 import MouseToolbar from "./MouseToolbar";
+import imgHome from "../img/imgHome.png";
+
 interface Data {
   _id: string;
   _fullName: string;
@@ -75,57 +77,84 @@ const NavBarUsers = (props: { onInOpen: Function; open: boolean }) => {
   const customStyles = {
     importantItem: {
       backgroundColor: "#83C1ED",
-
     },
     normalItem: {
       backgroundColor: "",
     },
   };
   return (
-    <>
+    <Box width={"100%"} height={"100vh"}>
       {dataUsers ? (
         <>
-          <MouseToolbar 
-            userName={localStorage.getItem("chatUserName")?.toString()}
-          ></MouseToolbar>
-          {dataUsers?.map((element, index) => (
-            <List
-              key={index}
-              sx={
-                props.open === true && index === listIndex
-                  ? customStyles.importantItem
-                  : customStyles.normalItem
-              }
+            <MouseToolbar
+              userName={localStorage.getItem("chatUserName")?.toString()}
+            ></MouseToolbar>
+          <Grid
+            container
+            direction="column"
+            justifyContent="space-between"
+            alignItems="flex-start"
+            height={"90%"}
+            width={"100%"}
+          >
+            <Grid item >
+              {dataUsers?.map((element, index) => (
+                <List
+                  key={index}
+                  sx={
+                    props.open === true && index === listIndex
+                      ? customStyles.importantItem
+                      : customStyles.normalItem
+                  }
+                >
+                  <ListItem
+                    button
+                    onClick={async () => {
+                      setClickedUser(element);
+                      sendApi(element);
+                      setListIndex(index);
+                      props.open !== true
+                        ? props.onInOpen(true)
+                        : props.onInOpen(false);
+                    }}
+                  >
+                    {usersStatus[element._id] !== false && (
+                      <PersonPinIcon
+                        sx={{
+                          position: "static",
+                          bottom: 0,
+                          left: 0,
+                          right: 0,
+                          color:"#ffff",
+                          fontSize: 40
+                        }}
+                        elevation={3}
+                      />
+                    )}
+                    <ListItemText
+                      primary={element._fullName}
+                      sx={{color:"#ffff"}}
+                      // secondary={element._id}
+                    />
+                  </ListItem>
+                </List>
+              ))}
+            </Grid>
+            <Grid
+              container
+              direction="row"
+              justifyContent="center"
+              alignItems="center"
+              height={"30%"}
             >
-              <ListItem
-                button
-                onClick={async () => {
-                  setClickedUser(element);
-                  sendApi(element);
-                  setListIndex(index);
-                  props.open !== true
-                    ? props.onInOpen(true)
-                    : props.onInOpen(false);
-                }}
-              >
-                {usersStatus[element._id] !== false && (
-                  <PersonPinIcon
-                    sx={{ position: "static", bottom: 0, left: 0, right: 0 }}
-                    elevation={3}
-                  />
-                )}
-                <ListItemText
-                  primary={element._fullName}
-                  // secondary={element._id}
-                />
-              </ListItem>
-            </List>
-          ))}
+              <img src={imgHome} width={"30%"} height={"50%"}/>
+            </Grid>
+          </Grid>
         </>
       ) : (
         <div>Loading...</div>
       )}
-    </>
+    </Box>
   );
 };
 export default NavBarUsers;

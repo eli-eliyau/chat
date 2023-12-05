@@ -55,7 +55,7 @@ const Home = () => {
           justifyContent="flex-start"
           alignItems="flex-start"
         >
-          <Grid item sx={style}>
+          <Grid item sx={style} >
             <NavBarUsers onInOpen={setIsOpen} open={isOpen} />
           </Grid>
           <Grid
@@ -65,6 +65,7 @@ const Home = () => {
             {isOpen ? (
               <PageMessages />
             ) : (
+              <>
               <Slide direction={direction} in={visible} timeout={1000}>
                 <img
                   src={imgMessage}
@@ -76,6 +77,8 @@ const Home = () => {
                   }}
                 />
               </Slide>
+             
+              </>
             )}
           </Grid>
         </Grid>

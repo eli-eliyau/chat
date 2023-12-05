@@ -4,7 +4,7 @@ main().catch((err) => console.log(err));
 
 async function main() {
   try {
-    await mongoose.connect(`${process.env.CONNECING_TO_DB}`);
+    await mongoose.connect('mongodb+srv://Projects:qcran4bvydnObCNu@cluster0.ywfj6da.mongodb.net/chatProject');
     console.log("mongoDB connected");
   } catch (err) {
     console.log(err);
