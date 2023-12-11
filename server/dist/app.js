@@ -12,6 +12,8 @@ const routers_1 = __importDefault(require("./routers/routers"));
 const socket_io_2 = __importDefault(require("./socket.io"));
 require("./db/connecing");
 const node_path_1 = __importDefault(require("node:path"));
+const body_parser_1 = __importDefault(require("body-parser"));
+const web_push_1 = __importDefault(require("web-push"));
 require("dotenv").config({ path: "./.env" });
 const PORT = 4000;
 const app = (0, express_1.default)();
@@ -25,12 +27,16 @@ exports.io = new socket_io_1.Server(server, {
 });
 app.use((0, cors_1.default)({ origin: process.env.CLIENT_URL, credentials: true }));
 app.use(express_1.default.json());
+app.use(body_parser_1.default.json());
+const publicVapidKey = 'BH67tm8cUd_PqcJMUQHLNBdbWccbBpY9-j1GEJ7pj2Ya0EgbBlOROJad_miVMyxL1S22lqf-d-JSx1le_wlYGn0';
+const privateVapidKey = 'jfb1DWeeCDC8SIBqh9Zt-CVII74x2c62P2KMGBOL2Bk';
+web_push_1.default.setVapidDetails('mailto:eli.eliyahu.280@gmail.com', publicVapidKey, privateVapidKey);
 app.use("/api", routers_1.default);
 (0, socket_io_2.default)(exports.io);
 app.use(express_1.default.static(node_path_1.default.join(__dirname, "../../client/build")));
-// app.get("*", (req: Request, res: Response) => {
-// res.sendFile(path.join(__dirname, "../../client/build/index.html"));
-// });
+app.get("*", (req, res) => {
+    res.sendFile(node_path_1.default.join(__dirname, "../../client/build/index.html"));
+});
 server.listen(PORT, () => {
     console.log(`server is run port ${PORT}`);
 });

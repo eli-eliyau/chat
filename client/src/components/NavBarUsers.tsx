@@ -2,12 +2,13 @@ import { Box, Grid, List, ListItem, ListItemText } from "@mui/material";
 import PersonPinIcon from "@mui/icons-material/PersonPin";
 import { useEffect, useState } from "react";
 import { API_SOCKET_IO, apiPost } from "../apiServer/apiToServer";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { atomDataClickedUser, atomNumRoom } from "../atom/atom";
 import { sockets } from "./HomeMessages";
 import { Socket, io } from "socket.io-client";
 import MouseToolbar from "./MouseToolbar";
 import imgHome from "../img/imgHome.png";
+import notifications from "./Notifications";
 
 interface Data {
   _id: string;
@@ -29,7 +30,7 @@ const NavBarUsers = (props: { onInOpen: Function; open: boolean }) => {
   const [listIndex, setListIndex] = useState<number>();
 
   const setAtomNumRoo = useSetRecoilState(atomNumRoom);
-  const setClickedUser = useSetRecoilState(atomDataClickedUser);
+  const [clickedUser,setClickedUser] = useRecoilState(atomDataClickedUser);
 
   useEffect(() => {
     const newSocket = io(`${API_SOCKET_IO}`);
@@ -55,7 +56,6 @@ const NavBarUsers = (props: { onInOpen: Function; open: boolean }) => {
   useEffect(() => {
     apiPost({ _id: localStorage.getItem("chatIdMyUser") }, "getAllUsers")
       .then((data) => {
-        console.log(data);
 
         setDataUsers(data);
       })
@@ -72,6 +72,8 @@ const NavBarUsers = (props: { onInOpen: Function; open: boolean }) => {
       setAtomNumRoo(room);
       sockets.emit("join_room", room);
     }
+
+    // notifications(clickedUser._id)
   };
 
   const customStyles = {
@@ -86,9 +88,9 @@ const NavBarUsers = (props: { onInOpen: Function; open: boolean }) => {
     <Box width={"100%"} height={"100vh"}>
       {dataUsers ? (
         <>
-            <MouseToolbar
-              userName={localStorage.getItem("chatUserName")?.toString()}
-            ></MouseToolbar>
+          <MouseToolbar
+            userName={localStorage.getItem("chatUserName")?.toString()}
+          ></MouseToolbar>
           <Grid
             container
             direction="column"
@@ -97,7 +99,7 @@ const NavBarUsers = (props: { onInOpen: Function; open: boolean }) => {
             height={"90%"}
             width={"100%"}
           >
-            <Grid item >
+            <Grid item width={'100%'}>
               {dataUsers?.map((element, index) => (
                 <List
                   key={index}
@@ -110,9 +112,9 @@ const NavBarUsers = (props: { onInOpen: Function; open: boolean }) => {
                   <ListItem
                     button
                     onClick={async () => {
-                      setClickedUser(element);
                       sendApi(element);
                       setListIndex(index);
+                      setClickedUser(element);
                       props.open !== true
                         ? props.onInOpen(true)
                         : props.onInOpen(false);
@@ -125,15 +127,15 @@ const NavBarUsers = (props: { onInOpen: Function; open: boolean }) => {
                           bottom: 0,
                           left: 0,
                           right: 0,
-                          color:"#ffff",
-                          fontSize: 40
+                          color: "#ffff",
+                          fontSize: 40,
                         }}
                         elevation={3}
                       />
                     )}
                     <ListItemText
                       primary={element._fullName}
-                      sx={{color:"#ffff"}}
+                      sx={{ color: "#ffff" }}
                       // secondary={element._id}
                     />
                   </ListItem>
@@ -147,9 +149,10 @@ const NavBarUsers = (props: { onInOpen: Function; open: boolean }) => {
               alignItems="center"
               height={"30%"}
             >
-              <img src={imgHome} width={"30%"} height={"50%"}/>
+              <img src={imgHome} width={"30%"} height={"50%"} />
             </Grid>
           </Grid>
+        
         </>
       ) : (
         <div>Loading...</div>

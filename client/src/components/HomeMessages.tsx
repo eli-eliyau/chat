@@ -57,6 +57,7 @@ const HomeMessages = () => {
         direction="column"
         justifyContent="flex-start"
         alignItems="stretch"
+        height={"100%"}
       >
         {listMessages.map((key: TypeMessage, index) => (
           <>

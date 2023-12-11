@@ -9,6 +9,10 @@ const PageMessages = () => {
   return (
     <Fade in timeout={2000}>
       <Grid
+      container
+      direction="column"
+      justifyContent="space-around"
+      alignItems="center"
         sx={{
           width: "100%",
           height: { xs: "100vh", sm: "100vh", md: "100vh", xl: "100vh" },
@@ -23,15 +27,16 @@ const PageMessages = () => {
           overflow={"auto"}
           sx={{
             width: "100%",
-            height: { xs: "60%", sm: "90%", md: "90%", xl: "90%" },
+            height: { xs: "90%", sm: "90%", md: "90%", xl: "90%" },
           }}
         >
           <HomeMessages />
         </Grid>
         <Grid
+        item
           sx={{
             width: "100%",
-            height: { xs: "30%", sm: "10%", md: "10%", xl: "10%" },
+            height: { xs: "10%", sm: "10%", md: "10%", xl: "10%" },
           }}
         >
           <InputMessage />
